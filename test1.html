@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Test 1</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+    <style>
+        iframe {
+            display: block;
+            height: 25vh;
+            outline: 1px dashed red;
+            width: 50vw;
+        }
+
+        figure {
+            border: 1px solid slategray;
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+
+            img {
+                max-width: 100%;
+            }
+        }
+
+        article {
+            margin: 0 auto;
+            max-width: 50rem;
+        }
+
+        table {
+            margin: 2rem 0;
+            width: 100%;
+        }
+
+        thead {
+            background-color: cornflowerblue;
+            color: white;
+        }
+
+        tbody>tr:nth-child(even) {
+            background-color: #eee;
+        }
+
+        th,
+        td {
+            padding: 0.25rem;
+        }
+
+        td:first-child {
+            width: 25%;
+        }
+    </style>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            function handleBeforeUnload(e) {
+                console.groupCollapsed('handling test2 beforeunload');
+                console.log('event:', e);
+                console.groupEnd();
+            }
+            test2.addEventListener('load', (e) => {
+                console.groupCollapsed('test2 iframe loaded');
+                console.log('event:', e);
+                console.groupEnd();
+
+                test2.contentWindow.addEventListener('beforeunload', handleBeforeUnload);
+            });
+        });
+        window.addEventListener('DOMContentLoaded', () => {
+            let hasFocus = null;
+            setInterval(() => {
+                if (document.hasFocus() !== hasFocus) {
+                    const now = new Date();
+                    const time = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`;
+                    hasFocus = document.hasFocus();
+                    console.log(`document focus (${hasFocus}) at ${time}`);
+                }
+            }, 100);
+
+            document.addEventListener('visibilitychange', event => {
+                console.groupCollapsed('Visibility Changed');
+                console.log({ event, 'document hidden': document.hidden });
+                console.groupEnd();
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <article>
+
+        <section>
+            <b>Test 1</b>
+
+            (The <code>iframe</code> has a red dashed border.)
+
+            <iframe
+                id="test2"
+                src="test2.html"
+                frameborder="0"
+            ></iframe>
+        </section>
+
+        <!-- The following HTML is generated from the readme.md file and should be in sync with it. -->
+
+        <h1 id="chrome-iframe-navigation-loses-document-focus">Chrome <code>iframe</code> Navigation Loses Document
+            Focus
+        </h1>
+        <p>This reproduces an issue I'm having with Chrome's <code>document.hasFocus()</code> becoming false once iframe
+            navigation occurs.</p>
+        <p>In Chrome, when the iframe navigates, you can see focus is gained (if not already attained) when the link
+            inside
+            the iframe is clicked. Document focus is then immediately lost once the iframe navigates and is lost until
+            the
+            user clicks again.</p>
+        <p>Firefox and Edge do not appear to have the same problem and are functioning the way Chrome <em>used</em> to
+            function.</p>
+        <p>Repro Steps:</p>
+        <ul>
+            <li>open test1.html page w/ console open</li>
+            <li>click link inside iframe to navigate</li>
+            <li>observe the line <code>document focus (false) at {time}</code> (only Chrome exhibits this behavior)</li>
+        </ul>
+        <figure>
+            <img
+                src="images/chrome-iframe-nav-log.jpg"
+                alt="Chrome iframe navigation loses document focus"
+            >
+            <figcaption>Chrome Console Log: <code>document.hasFocus()</code> becomes false when iframes navigate.
+            </figcaption>
+        </figure>
+        <figure>
+            <img
+                src="images/firefox-iframe-nav-log.jpg"
+                alt="Firefox iframe navigation preserves document focus"
+            >
+            <figcaption>Firefox Console Log: <code>document.hasFocus()</code> stays true when iframes navigate.
+            </figcaption>
+        </figure>
+        <figure>
+            <img
+                src="images/edge-iframe-nav-log.jpg"
+                alt="Edge iframe navigation preserves document focus"
+            >
+            <figcaption>Edge Console Log: <code>document.hasFocus()</code> stays true when iframes navigate.
+            </figcaption>
+        </figure>
+        <figure>
+            <img
+                src="images/brave-iframe-nav-log.jpg"
+                alt="Brave iframe navigation preserves document focus"
+            >
+            <figcaption>Brave Console Log: <code>document.hasFocus()</code> stays true when iframes navigate.
+            </figcaption>
+        </figure>
+        <table>
+            <thead>
+                <tr>
+                    <th>Browser</th>
+                    <th>Version</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Chrome</td>
+                    <td>126.0.6478.183 (Official Build) (64-bit) (cohort: M126 Rollout) <br> <b>Revision</b>
+                        2e81dea53f5ecdc1c057e4c70ecd66151987296a-refs/branch-heads/6478@{#1777}</td>
+                </tr>
+                <tr>
+                    <td>Firefox</td>
+                    <td>128.0.2 (64-bit)</td>
+                </tr>
+                <tr>
+                    <td>Edge</td>
+                    <td>126.0.2592.113 (Official build) (64-bit) <br> <strong>Revision</strong>
+                        088a59f740646b4e18b4a42c30503103c0b1b0aa</td>
+                </tr>
+                <tr>
+                    <td>Brave</td>
+                    <td>1.67.134 Chromium: 126.0.6478.186 (Official Build) (64-bit) <br> <strong>Revision</strong>
+                        e27c9744a0ed98bfa60e287af7e5eaffde15bd57</td>
+                </tr>
+            </tbody>
+        </table>
+    </article>
+</body>
+
+</html>
