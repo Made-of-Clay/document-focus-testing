@@ -12,22 +12,22 @@ Repro Steps:
 - observe the line `document focus (false) at {time}` (only Chrome exhibits this behavior)
 
 <figure>
-    <img src="chrome-iframe-nav-log.jpg" alt="Chrome iframe navigation loses document focus">
+    <img src="images/chrome-iframe-nav-log.jpg" alt="Chrome iframe navigation loses document focus">
     <figcaption>Chrome Console Log: <code>document.hasFocus()</code> becomes false when iframes navigate.</figcaption>
 </figure>
 
 <figure>
-    <img src="firefox-iframe-nav-log.jpg" alt="Firefox iframe navigation preserves document focus">
+    <img src="images/firefox-iframe-nav-log.jpg" alt="Firefox iframe navigation preserves document focus">
     <figcaption>Firefox Console Log: <code>document.hasFocus()</code> stays true when iframes navigate.</figcaption>
 </figure>
 
 <figure>
-    <img src="edge-iframe-nav-log.jpg" alt="Edge iframe navigation preserves document focus">
+    <img src="images/edge-iframe-nav-log.jpg" alt="Edge iframe navigation preserves document focus">
     <figcaption>Edge Console Log: <code>document.hasFocus()</code> stays true when iframes navigate.</figcaption>
 </figure>
 
 <figure>
-    <img src="brave-iframe-nav-log.jpg" alt="Brave iframe navigation preserves document focus">
+    <img src="images/brave-iframe-nav-log.jpg" alt="Brave iframe navigation preserves document focus">
     <figcaption>Brave Console Log: <code>document.hasFocus()</code> stays true when iframes navigate.</figcaption>
 </figure>
 
